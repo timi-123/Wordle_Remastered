@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="Proekt_VP.MainMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Proekt_VP"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="White">
+        <TextBox HorizontalAlignment="Center" Margin="0,80,0,0" TextWrapping="Wrap" Text="WORDLE" VerticalAlignment="Top" FontSize="48" FontWeight="Bold"/>
+        <StackPanel VerticalAlignment="Top" 
+                    HorizontalAlignment="Center"
+                    Width="250" Height="154" Margin="0,211,0,0">
+            <Button x:Name="Daily_Wordle" Content="Daily Wordle"
+                    Height="35"
+                    Margin="0,10"
+                    Click="Button_Click"/>
+            <Button x:Name="Singleplayer_btn" Content="SIGLEPLAYER MODE"
+                    Height="35"
+                    Margin="0,10"
+                    Click="Singleplayer_btn_Click"/>
+            <Button x:Name="two_player_btn" Content="2 PLAYER MODE"
+                    Height="35"
+                    Margin="0,10"
+                    Click="two_player_btn_Click"
+                    />
+
+        </StackPanel>
+
+    </Grid>
+</UserControl>
