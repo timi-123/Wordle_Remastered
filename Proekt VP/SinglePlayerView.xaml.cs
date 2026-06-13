@@ -9,7 +9,26 @@ namespace Proekt_VP
         public SinglePlayerView()
         {
             InitializeComponent();
-            DataContext = new SinglePlayerViewModel("HELLO");
+        }
+
+        private void StartGame(int minutes)
+        {
+            DataContext = new SinglePlayerViewModel("HELLO",minutes);
+            DurationSelection.Visibility = Visibility.Collapsed;
+            Board.Visibility = Visibility.Visible;
+        }
+
+        private void OneMinuteClick(object sender, RoutedEventArgs e)
+        {
+            StartGame(1);
+        }
+        private void TwoMinutesClick(object sender, RoutedEventArgs e)
+        {
+            StartGame(2);
+        }
+        private void ThreeMinutesClick(object sender, RoutedEventArgs e)
+        {
+            StartGame(3);
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
