@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using Proekt_VP.Models;
 
 namespace Proekt_VP.ViewModels
@@ -31,7 +32,21 @@ namespace Proekt_VP.ViewModels
         public ICommand SubmitGuessCommand { get; }
         public ICommand BackspaceCommand { get; }
 
-        public SinglePlayerViewModel(string targetWord = "HELLO")
+        //Logika za timer
+        private readonly DispatcherTimer timer;
+        private TimeSpan timeRemaining;
+
+        public string TimeRemainingText => timeRemaining.ToString(@"mm\:ss");
+
+        private bool _isGameOver;
+        public bool isGameOver
+        {
+            get => _isGameOver;
+            set => SetProperty(ref _isGameOver, value);
+        }
+
+
+        public SinglePlayerViewModel(string targetWord = "HELLO", int durationMinutes=5)
         {
             _targetWord = targetWord.ToUpper();
 
@@ -88,10 +103,33 @@ namespace Proekt_VP.ViewModels
             EnterLetterCommand = new RelayCommand(OnEnterLetter);
             SubmitGuessCommand = new RelayCommand(o => OnSubmitGuess());
             BackspaceCommand = new RelayCommand(o => OnBackspace());
+
+
+            timeRemaining = TimeSpan.FromMinutes(durationMinutes);
+            timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
+            timer.Tick += Timer_Tick;
+            timer.Start();
+        }
+
+        private void Timer_Tick(object? sender, EventArgs e)
+        {
+            timeRemaining -= TimeSpan.FromSeconds(1);
+            OnPropertyChanged(nameof(TimeRemainingText));
+
+            if (timeRemaining <= TimeSpan.Zero)
+            {
+                timer.Stop();
+                isGameOver = true;
+                ErrorMessage = "Time's up";
+            }
         }
 
         private void OnEnterLetter(object? parameter)
         {
+            if (isGameOver)
+            {
+                return;
+            }
             ErrorMessage = ""; 
             if (parameter is string key)
             {

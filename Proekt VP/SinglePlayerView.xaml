@@ -8,7 +8,17 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
+        
+        <!-- Za selektiranje duration na igra -->
+
+        <StackPanel x:Name="DurationSelection" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock FontSize="25" Margin="0,0,0,10">Choose a time limit</TextBlock>
+            <Button Margin="0,0,0,10" Width="150" Padding="7" Click="OneMinuteClick">1 min</Button>
+            <Button Margin="0,0,0,10" Width="150" Padding="7" Click="TwoMinutesClick">2min</Button>
+            <Button Width="150" Padding="7" Click="ThreeMinutesClick">5min</Button>
+        </StackPanel>
+        
         <Button Content="← Back to Menu" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Padding="10,5" Click="BackButton_Click" />
-        <controls:WordleBoardControl HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <controls:WordleBoardControl x:Name="Board" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" />
     </Grid>
 </UserControl>
