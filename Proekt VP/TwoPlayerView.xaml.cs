@@ -13,14 +13,17 @@ using System.Windows.Shapes;
 
 namespace Proekt_VP
 {
-    /// <summary>
-    /// Interaction logic for TwoPlayerView.xaml
-    /// </summary>
     public partial class TwoPlayerView : UserControl
     {
         public TwoPlayerView()
         {
             InitializeComponent();
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)Window.GetWindow(this);
+            mainWindow.ChangeView(new MainMenuView());
         }
     }
 }

@@ -4,9 +4,29 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Proekt_VP"
+             xmlns:controls="clr-namespace:Proekt_VP.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Button Grid.Column="0" Content="← Back to Menu" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Padding="10,5" Click="BackButton_Click" />
+
+        <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Player 1" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+            <controls:WordleBoardControl />
+        </StackPanel>
+
+        <Border Grid.Column="1" Width="2" Background="LightGray" Margin="10,0"/>
+
+       
+        <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Player 2" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+            <controls:WordleBoardControl />
+        </StackPanel>
     </Grid>
 </UserControl>

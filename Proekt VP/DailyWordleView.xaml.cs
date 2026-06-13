@@ -13,14 +13,17 @@ using System.Windows.Shapes;
 
 namespace Proekt_VP
 {
-    /// <summary>
-    /// Interaction logic for DailyWordleView.xaml
-    /// </summary>
     public partial class DailyWordleView : UserControl
     {
         public DailyWordleView()
         {
             InitializeComponent();
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)Window.GetWindow(this);
+            mainWindow.ChangeView(new MainMenuView());
         }
     }
 }

@@ -13,9 +13,6 @@ using System.Windows.Shapes;
 
 namespace Proekt_VP
 {
-    /// <summary>
-    /// Interaction logic for MainMenuView.xaml
-    /// </summary>
     public partial class MainMenuView : UserControl
     {
         public MainMenuView()

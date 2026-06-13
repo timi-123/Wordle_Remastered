@@ -1,26 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Proekt_VP.ViewModels;
 
 namespace Proekt_VP
 {
-    /// <summary>
-    /// Interaction logic for SinglePlayerView.xaml
-    /// </summary>
     public partial class SinglePlayerView : UserControl
     {
         public SinglePlayerView()
         {
             InitializeComponent();
+            DataContext = new SinglePlayerViewModel("HELLO");
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)Window.GetWindow(this);
+            mainWindow.ChangeView(new MainMenuView());
         }
     }
 }
