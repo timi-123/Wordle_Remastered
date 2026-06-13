@@ -4,9 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Proekt_VP"
+             xmlns:controls="clr-namespace:Proekt_VP.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Button Content="← Back to Menu" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Padding="10,5" Click="BackButton_Click" />
+        <controls:WordleBoardControl HorizontalAlignment="Center" VerticalAlignment="Center" />
     </Grid>
 </UserControl>
