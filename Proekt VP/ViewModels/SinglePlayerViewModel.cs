@@ -45,6 +45,15 @@ namespace Proekt_VP.ViewModels
             set => SetProperty(ref _isGameOver, value);
         }
 
+        public event EventHandler? GameOver;
+        private void EndGame(string message)
+        {
+            timer.Stop();
+            isGameOver = true;
+            ErrorMessage = message;
+            GameOver?.Invoke(this, EventArgs.Empty);
+        }
+
 
         public SinglePlayerViewModel(string targetWord = "HELLO", int durationMinutes=5)
         {
@@ -118,9 +127,7 @@ namespace Proekt_VP.ViewModels
 
             if (timeRemaining <= TimeSpan.Zero)
             {
-                timer.Stop();
-                isGameOver = true;
-                ErrorMessage = "Time's up";
+                EndGame("Time's up!");
             }
         }
 
@@ -217,6 +224,7 @@ namespace Proekt_VP.ViewModels
 
             _currentRowIndex++;
             _currentColIndex = 0;
+
         }
 
         public async Task<bool> IsValidWordAsync(string word)

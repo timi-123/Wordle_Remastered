@@ -15,7 +15,7 @@
                     Height="35"
                     Margin="0,10"
                     Click="Button_Click"/>
-            <Button x:Name="Singleplayer_btn" Content="SIGLEPLAYER MODE"
+            <Button x:Name="Singleplayer_btn" Content="SINGLEPLAYER MODE"
                     Height="35"
                     Margin="0,10"
                     Click="Singleplayer_btn_Click"/>
