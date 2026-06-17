@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -13,7 +13,20 @@ namespace Proekt_VP.ViewModels
     {
         private static readonly HttpClient _httpClient = new HttpClient();
 
-        private readonly string _targetWord;
+        private static string[] wordList = {
+            "HELLO", "WORLD", "BRAIN", "CRANE", "PLANT", "SHINE", "GRAPE", "STONE",
+            "FLAME", "BRAVE", "CLOUD", "DRIFT", "EARTH", "FAITH", "GIANT", "HONEY",
+            "INPUT", "JEWEL", "KNIFE", "LEMON", "MAGIC", "NIGHT", "OCEAN", "PEACE",
+            "QUEEN", "RIVER", "SMILE", "TIGER", "ULTRA", "VAPOR", "WATER", "XENON",
+            "YACHT", "ZEBRA", "ANGEL", "BEACH", "CANDY", "DANCE", "EAGLE", "FROST",
+            "GLOBE", "HEART", "IVORY", "JUICE", "KARMA", "LIGHT", "MONEY", "NORTH",
+            "OLIVE", "PANIC", "QUOTA", "RADAR", "SUGAR", "TABLE", "UNCLE", "VIDEO",
+            "WATCH", "EXTRA", "YOUTH", "ZONAL", "ALBUM", "BLANK", "CHAIR", "DREAM",
+            "EIGHT", "FLOOD", "GRACE", "HAPPY", "IMAGE", "JOKER", "KNEEL", "LASER",
+            "MANOR", "NOBLE", "ORBIT", "PIANO", "QUIET", "RAPID", "SALAD", "THINK"
+        };
+        private static Random random = new Random();
+        private string _targetWord;
         private int _currentRowIndex = 0;
         private int _currentColIndex = 0;
 
@@ -54,10 +67,38 @@ namespace Proekt_VP.ViewModels
             GameOver?.Invoke(this, EventArgs.Empty);
         }
 
+        private void ClearBoard()
+        {
+            foreach(ObservableCollection<LetterCell> guessedWord in Guesses)
+            {
+                foreach(LetterCell cell in guessedWord)
+                {
+                    cell.Letter = "";
+                    cell.BackgroundColor = Brushes.Transparent;
+                }
+            }
+
+            foreach(KeyModel key in KeyboardKeys)
+            {
+                key.BackgroundColor = Brushes.LightGray;
+            }
+
+            _currentRowIndex = 0;
+            _currentColIndex = 0;
+            ErrorMessage = "";
+
+            string newWord="";
+            do
+            {
+                newWord = wordList[random.Next(wordList.Length)];
+            } while (newWord == _targetWord);
+
+            _targetWord = newWord;
+        }
 
         public SinglePlayerViewModel(string targetWord = "HELLO", int durationMinutes=5)
         {
-            _targetWord = targetWord.ToUpper();
+            _targetWord = wordList[random.Next(wordList.Length)];
 
             Guesses = new ObservableCollection<ObservableCollection<LetterCell>>();
             for (int r = 0; r < 6; r++)
@@ -127,7 +168,7 @@ namespace Proekt_VP.ViewModels
 
             if (timeRemaining <= TimeSpan.Zero)
             {
-                EndGame("Time's up!");
+                EndGame($"Time's up! The word was {_targetWord}");
             }
         }
 
@@ -222,8 +263,28 @@ namespace Proekt_VP.ViewModels
                 }
             }
 
+            if (guess == _targetWord)
+            {
+                isGameOver = true;
+                ErrorMessage = "Correct word!";
+                await Task.Delay(1500);
+                isGameOver = false;
+                ClearBoard();
+                return;
+            }
+
             _currentRowIndex++;
             _currentColIndex = 0;
+
+            if (_currentRowIndex == 6 && guess!=_targetWord)
+            {
+                isGameOver = true;
+                ErrorMessage = $"The word was {_targetWord}";
+                await Task.Delay(1500);
+                isGameOver = false;
+                ClearBoard();
+                return;
+            }
 
         }
 
