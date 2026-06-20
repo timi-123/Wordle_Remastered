@@ -9,15 +9,17 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" /> 
-            <RowDefinition Height="Auto" />    
+            <RowDefinition Height="Auto" />
+               
             <RowDefinition Height="*" /> 
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="2" Text="{Binding ErrorMessage}" Foreground="Red" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="0" Text="{Binding TimeRemainingText}" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="5"/>
-        
-        <ItemsControl Grid.Row="1" Margin="10" ItemsSource="{Binding Guesses}" HorizontalAlignment="Center">
+
+        <!-- <TextBlock Grid.Row="0" Text="{Binding Score, StringFormat='Score: {0}'}" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>-->
+        <TextBlock Grid.Row="1" Text="{Binding ErrorMessage}" Foreground="Red" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Margin="5" />
+        <!--<TextBlock Grid.Row="1" Text="{Binding TimeRemainingText}" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="5"/> -->
+
+        <ItemsControl Grid.Row="0" Margin="10" ItemsSource="{Binding Guesses}" HorizontalAlignment="Center">
             
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -49,7 +51,7 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <ItemsControl Grid.Row="4" Margin="10" ItemsSource="{Binding KeyboardRows}" HorizontalAlignment="Center">
+        <ItemsControl Grid.Row="3" Margin="10" ItemsSource="{Binding KeyboardRows}" HorizontalAlignment="Center">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" />
