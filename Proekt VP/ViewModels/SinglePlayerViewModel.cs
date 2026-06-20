@@ -67,6 +67,22 @@ namespace Proekt_VP.ViewModels
             GameOver?.Invoke(this, EventArgs.Empty);
         }
 
+        private static int[] AttemptBonuses = { 60, 50, 40, 30, 20, 10 };
+
+        private int score;
+        public int Score
+        {
+            get => score;
+            set => SetProperty(ref score, value);
+        }
+
+        private int wordc;
+        public int wordCount
+        {
+            get => wordc;
+            set => SetProperty(ref wordc, value);
+        }
+
         private void ClearBoard()
         {
             foreach(ObservableCollection<LetterCell> guessedWord in Guesses)
@@ -94,6 +110,9 @@ namespace Proekt_VP.ViewModels
             } while (newWord == _targetWord);
 
             _targetWord = newWord;
+
+            listForGreenLetters.Clear();
+            listForYellowLetters.Clear();
         }
 
         public SinglePlayerViewModel(string targetWord = "HELLO", int durationMinutes=5)
@@ -211,6 +230,9 @@ namespace Proekt_VP.ViewModels
             }
         }
 
+        private List<int> listForGreenLetters = new List<int>();
+        private List<int> listForYellowLetters = new List<int>();
+
         private async void OnSubmitGuess()
         {
             if (_currentColIndex != 5) return; 
@@ -233,10 +255,20 @@ namespace Proekt_VP.ViewModels
                 if (guessedChar == _targetWord[i])
                 {
                     cellColor = Brushes.Green;
+                    if (!listForGreenLetters.Contains(i))
+                    {
+                        Score += 5;
+                        listForGreenLetters.Add(i);
+                    }
                 }
                 else if (_targetWord.Contains(guessedChar))
                 {
-                    cellColor = Brushes.Goldenrod; 
+                    cellColor = Brushes.Goldenrod;
+                    if (!listForYellowLetters.Contains(i))
+                    {
+                        Score += 2;
+                        listForYellowLetters.Add(i);
+                    }
                 }
                 else
                 {
@@ -265,6 +297,8 @@ namespace Proekt_VP.ViewModels
 
             if (guess == _targetWord)
             {
+                Score += AttemptBonuses[_currentRowIndex];
+                wordCount++;
                 isGameOver = true;
                 ErrorMessage = "Correct word!";
                 await Task.Delay(1500);

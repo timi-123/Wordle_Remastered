@@ -19,6 +19,17 @@
         </StackPanel>
         
         <Button Content="← Back to Menu" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Padding="10,5" Click="BackButton_Click" />
-        <controls:WordleBoardControl x:Name="Board" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" />
+        
+
+        <Grid x:Name="Game" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <controls:TimerAndScoreControl Grid.Row="0" x:Name="TimerAndScore" HorizontalAlignment="Center" VerticalAlignment="Top" />
+            <controls:WordleBoardControl Grid.Row="1" x:Name="Board" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Grid>
+    
     </Grid>
 </UserControl>

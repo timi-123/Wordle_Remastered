@@ -17,7 +17,9 @@ namespace Proekt_VP
             model.GameOver += ModelGameOver;
             DataContext = model;
             DurationSelection.Visibility = Visibility.Collapsed;
-            Board.Visibility = Visibility.Visible;
+            //Board.Visibility = Visibility.Visible;
+            //TimerAndScore.Visibility = Visibility.Visible;
+            Game.Visibility = Visibility.Visible;
         }
 
         private void ModelGameOver(object? sender,EventArgs e)
@@ -25,7 +27,7 @@ namespace Proekt_VP
             if(sender is SinglePlayerViewModel model)
             {
                 model.GameOver -= ModelGameOver;
-                GameOverWindow popup = new GameOverWindow("Time's up!", 40) //da smenam tuka so model.Score koga ke implementiram logika za presmetuvanje poeni
+                GameOverWindow popup = new GameOverWindow("Time's up!", model.Score) //da smenam tuka so model.Score koga ke implementiram logika za presmetuvanje poeni
                 {
                     Owner = Window.GetWindow(this)
                 };
@@ -33,7 +35,9 @@ namespace Proekt_VP
 
                 if (popup.PlayAgain)
                 {
-                    Board.Visibility = Visibility.Collapsed;
+                    //Board.Visibility = Visibility.Collapsed;
+                    //TimerAndScore.Visibility = Visibility.Collapsed;
+                    Game.Visibility = Visibility.Collapsed;
                     DurationSelection.Visibility = Visibility.Visible;
                 }
                 else
