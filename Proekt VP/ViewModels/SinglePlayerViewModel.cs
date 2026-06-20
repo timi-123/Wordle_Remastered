@@ -1,6 +1,5 @@
  using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -11,8 +10,6 @@ namespace Proekt_VP.ViewModels
 {
     public class SinglePlayerViewModel : ViewModelBase
     {
-        private static readonly HttpClient _httpClient = new HttpClient();
-
         private static string[] wordList = {
             "HELLO", "WORLD", "BRAIN", "CRANE", "PLANT", "SHINE", "GRAPE", "STONE",
             "FLAME", "BRAVE", "CLOUD", "DRIFT", "EARTH", "FAITH", "GIANT", "HONEY",
@@ -322,19 +319,9 @@ namespace Proekt_VP.ViewModels
 
         }
 
-        public async Task<bool> IsValidWordAsync(string word)
+        public Task<bool> IsValidWordAsync(string word)
         {
-            try
-            {
-                var response = await _httpClient.GetAsync(
-                    $"https://api.dictionaryapi.dev/api/v2/entries/en/{word.ToLower()}"
-                );
-                return response.IsSuccessStatusCode; 
-            }
-            catch (HttpRequestException)
-            {
-                return true; 
-            }
+            return Services.WordValidator.IsValidWordAsync(word);
         }
     }
 }
