@@ -246,6 +246,15 @@ namespace Proekt_VP.ViewModels
                 return;
             }
 
+
+            List<char> remainingLetters = _targetWord.ToList();
+            for(int i = 0; i < 5; i++)
+            {
+                if (guess[i] == _targetWord[i])
+                {
+                    remainingLetters.Remove(guess[i]);
+                }
+            }
             for (int i = 0; i < 5; i++)
             {
                 char guessedChar = guess[i];
@@ -261,9 +270,10 @@ namespace Proekt_VP.ViewModels
                         listForGreenLetters.Add(i);
                     }
                 }
-                else if (_targetWord.Contains(guessedChar))
+                else if (remainingLetters.Contains(guessedChar))
                 {
                     cellColor = Brushes.Goldenrod;
+                    remainingLetters.Remove(guessedChar);
                     if (!listForYellowLetters.Contains(i))
                     {
                         Score += 2;
@@ -335,6 +345,12 @@ namespace Proekt_VP.ViewModels
             {
                 return true; 
             }
+        }
+
+        //da impementiram funkcija za zapiranje na timer za da ne vrti vo pozadina nekoj timer sto ne zavrsil i da ja povikuvam vo SinglePlayerView
+        public void StopTimer()
+        {
+            timer.Stop();
         }
     }
 }
