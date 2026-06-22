@@ -142,7 +142,6 @@
                             <ProgressBar Style="{StaticResource HpBar}" Minimum="0" Maximum="{Binding MaxHP}" Value="{Binding HP}"/>
                             <TextBlock Text="{Binding HP, StringFormat='{}{0} HP'}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
-                        <TextBlock Text="{Binding XP, StringFormat='XP {0}'}" HorizontalAlignment="Center" Margin="0,0,0,4"/>
                         <controls:WordleBoardControl IsEnabled="{Binding IsInputEnabled}"/>
                     </StackPanel>
                 </Border>
@@ -156,7 +155,6 @@
                             <ProgressBar Style="{StaticResource HpBar}" Minimum="0" Maximum="{Binding MaxHP}" Value="{Binding HP}"/>
                             <TextBlock Text="{Binding HP, StringFormat='{}{0} HP'}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
-                        <TextBlock Text="{Binding XP, StringFormat='XP {0}'}" HorizontalAlignment="Center" Margin="0,0,0,4"/>
                         <controls:WordleBoardControl IsEnabled="{Binding IsInputEnabled}"/>
                     </StackPanel>
                 </Border>

@@ -15,8 +15,9 @@ namespace Proekt_VP.ViewModels
         private const int GreenDamage = 25;
         private const int YellowDamage = 10;
         private const int SolveBurst = 250;
-        private const int GreenXp = 12;
-        private const int YellowXp = 6;
+        private const int GreenHeal = 12;
+        private const int YellowHeal = 6;
+        private const int TimeoutPenalty = 100;
         private const int WordsPerPlayer = 5;
 
         public PlayerBattleState Player1 { get; }
@@ -151,12 +152,10 @@ namespace Proekt_VP.ViewModels
             IsResolving = false;
             _p1Turn = true;
 
-            Player1.HP = StartHP;
-            Player2.HP = StartHP;
             Player1.MaxHP = StartHP;
             Player2.MaxHP = StartHP;
-            Player1.XP = 0;
-            Player2.XP = 0;
+            Player1.HP = StartHP;
+            Player2.HP = StartHP;
 
             Player1.SetTargetWords(P2ChosenWords.ToList());
             Player2.SetTargetWords(P1ChosenWords.ToList());
@@ -214,14 +213,14 @@ namespace Proekt_VP.ViewModels
             int damage = (int)Math.Round(raw * timeMultiplier);
 
             var opponent = OpponentOf(attacker);
-            opponent.HP = Math.Max(0, opponent.HP - damage);
+            opponent.HP -= damage;
 
-            attacker.XP += (int)Math.Round((greens * GreenXp + yellows * YellowXp) * timeMultiplier);
+            attacker.HP += (int)Math.Round((greens * GreenHeal + yellows * YellowHeal) * timeMultiplier);
 
             if (solved)
             {
                 int guessNumber = attacker.CurrentRowIndex + 1;
-                attacker.XP += 100 + (int)Math.Round(100 * f) + (7 - guessNumber) * 15;
+                attacker.HP += 100 + (int)Math.Round(100 * f) + (7 - guessNumber) * 15;
             }
 
             bool opponentDefeated = opponent.HP <= 0;
@@ -262,7 +261,15 @@ namespace Proekt_VP.ViewModels
             _timer.Stop();
             var who = ActivePlayer;
             who.ClearCurrentRow();
-            who.ErrorMessage = "Time! Turn passed";
+            who.HP -= TimeoutPenalty;
+            who.ErrorMessage = $"Time! -{TimeoutPenalty} HP";
+
+            if (who.HP <= 0)
+            {
+                EndGame(OpponentOf(who));
+                return;
+            }
+
             ContinueOrEnd(who);
         }
 
@@ -285,16 +292,17 @@ namespace Proekt_VP.ViewModels
 
         private void EndByHp()
         {
-            PlayerBattleState winner;
-            if (Player1.HP != Player2.HP)
+            if (Player1.HP == Player2.HP)
             {
-                winner = Player1.HP > Player2.HP ? Player1 : Player2;
+                _timer.Stop();
+                _turnStopwatch.Stop();
+                IsBattle = false;
+                IsResolving = false;
+                BattleEnded?.Invoke("It's a draw!", Player1.HP);
+                return;
             }
-            else
-            {
-                winner = Player1.XP >= Player2.XP ? Player1 : Player2;
-            }
-            EndGame(winner);
+
+            EndGame(Player1.HP > Player2.HP ? Player1 : Player2);
         }
 
         private void EndGame(PlayerBattleState winner)
@@ -303,7 +311,7 @@ namespace Proekt_VP.ViewModels
             _turnStopwatch.Stop();
             IsBattle = false;
             IsResolving = false;
-            BattleEnded?.Invoke($"{winner.Name} Wins!", winner.XP);
+            BattleEnded?.Invoke($"{winner.Name} Wins!", winner.HP);
         }
 
         private void SetTurn(PlayerBattleState player)

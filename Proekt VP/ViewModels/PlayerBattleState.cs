@@ -48,7 +48,8 @@ namespace Proekt_VP.ViewModels
             get => _hp;
             set
             {
-                if (SetProperty(ref _hp, value))
+                int clamped = Math.Max(0, Math.Min(MaxHP, value));
+                if (SetProperty(ref _hp, clamped))
                 {
                     OnPropertyChanged(nameof(HpFraction));
                     IsHpLow = HpFraction <= 0.4;
@@ -71,13 +72,6 @@ namespace Proekt_VP.ViewModels
         {
             get => _isHpCritical;
             set => SetProperty(ref _isHpCritical, value);
-        }
-
-        private int _xp;
-        public int XP
-        {
-            get => _xp;
-            set => SetProperty(ref _xp, value);
         }
 
         private bool _isMyTurn;

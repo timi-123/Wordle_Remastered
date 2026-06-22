@@ -72,6 +72,7 @@
                                         CommandParameter="{Binding Key}"
                                         Background="{Binding BackgroundColor}"
                                         Foreground="White"
+                                        Focusable="False" IsTabStop="False"
                                         MinWidth="35" Height="45" Margin="2" Padding="5,0" FontSize="16" FontWeight="Bold" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
