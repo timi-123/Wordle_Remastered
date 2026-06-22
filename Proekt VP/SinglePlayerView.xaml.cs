@@ -31,7 +31,7 @@ namespace Proekt_VP
             //TimerAndScore.Visibility = Visibility.Visible;
             Game.Visibility = Visibility.Visible;
 
-            Focus();
+            Keyboard.Focus(this);
         }
 
         private void KeyDownSPV(object sender, KeyEventArgs e)
