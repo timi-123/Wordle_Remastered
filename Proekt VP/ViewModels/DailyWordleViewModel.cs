@@ -10,7 +10,7 @@ namespace Proekt_VP.ViewModels
 {
     public class UnlimitedWordleViewModel : ViewModelBase
     {
-        private static readonly string[] WordList =
+        private static readonly string[] wordList =
         {
             "HELLO", "WORLD", "BRAIN", "CRANE", "PLANT", "SHINE", "GRAPE", "STONE",
             "FLAME", "BRAVE", "CLOUD", "DRIFT", "EARTH", "FAITH", "GIANT", "HONEY",
@@ -24,133 +24,124 @@ namespace Proekt_VP.ViewModels
             "MANOR", "NOBLE", "ORBIT", "PIANO", "QUIET", "RAPID", "SALAD", "THINK"
         };
 
-        private static readonly Random Random = new Random();
+        private static readonly Random random = new Random();
 
-        private string _targetWord = "";
-        private int _currentRowIndex;
-        private int _currentColIndex;
-        private bool _isSubmitting;
+        private string targetWord = "";
+        private int currentRow;
+        private int currentColumn;
+        private bool isSubmitting;
 
         public ObservableCollection<ObservableCollection<LetterCell>> Guesses { get; }
-
         public ObservableCollection<KeyModel> KeyboardKeys { get; }
-
         public ObservableCollection<ObservableCollection<KeyModel>> KeyboardRows { get; }
 
-        private string _errorMessage = "";
+        private string errorMessage = "";
 
         public string ErrorMessage
         {
-            get => _errorMessage;
-            set => SetProperty(ref _errorMessage, value);
+            get => errorMessage;
+            set => SetProperty(ref errorMessage, value);
         }
 
-        private bool _isGameOver;
+        private bool isGameOver;
 
         public bool IsGameOver
         {
-            get => _isGameOver;
+            get => isGameOver;
             set
             {
-                SetProperty(ref _isGameOver, value);
+                SetProperty(ref isGameOver, value);
                 OnPropertyChanged(nameof(IsGameActive));
             }
         }
 
         public bool IsGameActive => !IsGameOver;
 
-        // -------------------------------------------------
-        // SESSION STATISTICS
-        // -------------------------------------------------
-
-        private int _gamesPlayed;
+        private int gamesPlayed;
 
         public int GamesPlayed
         {
-            get => _gamesPlayed;
+            get => gamesPlayed;
             set
             {
-                SetProperty(ref _gamesPlayed, value);
+                SetProperty(ref gamesPlayed, value);
                 OnPropertyChanged(nameof(WinPercentage));
             }
         }
 
-        private int _gamesWon;
+        private int gamesWon;
 
         public int GamesWon
         {
-            get => _gamesWon;
+            get => gamesWon;
             set
             {
-                SetProperty(ref _gamesWon, value);
+                SetProperty(ref gamesWon, value);
                 OnPropertyChanged(nameof(WinPercentage));
             }
         }
 
-        private int _gamesLost;
+        private int gamesLost;
 
         public int GamesLost
         {
-            get => _gamesLost;
-            set => SetProperty(ref _gamesLost, value);
+            get => gamesLost;
+            set => SetProperty(ref gamesLost, value);
         }
 
-        private int _wonIn1;
+        private int wonIn1;
+        private int wonIn2;
+        private int wonIn3;
+        private int wonIn4;
+        private int wonIn5;
+        private int wonIn6;
 
         public int WonIn1
         {
-            get => _wonIn1;
-            set => SetProperty(ref _wonIn1, value);
+            get => wonIn1;
+            set => SetProperty(ref wonIn1, value);
         }
-
-        private int _wonIn2;
 
         public int WonIn2
         {
-            get => _wonIn2;
-            set => SetProperty(ref _wonIn2, value);
+            get => wonIn2;
+            set => SetProperty(ref wonIn2, value);
         }
-
-        private int _wonIn3;
 
         public int WonIn3
         {
-            get => _wonIn3;
-            set => SetProperty(ref _wonIn3, value);
+            get => wonIn3;
+            set => SetProperty(ref wonIn3, value);
         }
-
-        private int _wonIn4;
 
         public int WonIn4
         {
-            get => _wonIn4;
-            set => SetProperty(ref _wonIn4, value);
+            get => wonIn4;
+            set => SetProperty(ref wonIn4, value);
         }
-
-        private int _wonIn5;
 
         public int WonIn5
         {
-            get => _wonIn5;
-            set => SetProperty(ref _wonIn5, value);
+            get => wonIn5;
+            set => SetProperty(ref wonIn5, value);
         }
-
-        private int _wonIn6;
 
         public int WonIn6
         {
-            get => _wonIn6;
-            set => SetProperty(ref _wonIn6, value);
+            get => wonIn6;
+            set => SetProperty(ref wonIn6, value);
         }
 
-        public double WinPercentage =>
-            GamesPlayed == 0
-                ? 0
-                : (double)GamesWon / GamesPlayed * 100;
+        public double WinPercentage
+        {
+            get
+            {
+                if (GamesPlayed == 0)
+                    return 0;
 
-        // -------------------------------------------------
-        // COMMANDS
-        // -------------------------------------------------
+                return (double)GamesWon / GamesPlayed * 100;
+            }
+        }
 
         public ICommand EnterLetterCommand { get; }
         public ICommand SubmitGuessCommand { get; }
@@ -159,238 +150,163 @@ namespace Proekt_VP.ViewModels
 
         public UnlimitedWordleViewModel()
         {
-            Guesses =
-                new ObservableCollection<ObservableCollection<LetterCell>>();
+            Guesses = new ObservableCollection<ObservableCollection<LetterCell>>();
 
-            for (int rowIndex = 0; rowIndex < 6; rowIndex++)
+            for (int i = 0; i < 6; i++)
             {
                 var row = new ObservableCollection<LetterCell>();
 
-                for (int columnIndex = 0; columnIndex < 5; columnIndex++)
-                {
+                for (int j = 0; j < 5; j++)
                     row.Add(new LetterCell());
-                }
 
                 Guesses.Add(row);
             }
 
             KeyboardKeys = new ObservableCollection<KeyModel>();
-
-            KeyboardRows =
-                new ObservableCollection<ObservableCollection<KeyModel>>();
+            KeyboardRows = new ObservableCollection<ObservableCollection<KeyModel>>();
 
             CreateKeyboard();
 
-            EnterLetterCommand =
-                new RelayCommand(OnEnterLetter);
-
-            SubmitGuessCommand =
-                new RelayCommand(_ => OnSubmitGuess());
-
-            BackspaceCommand =
-                new RelayCommand(_ => OnBackspace());
-
-            NewGameCommand =
-                new RelayCommand(_ => StartNewGame());
+            EnterLetterCommand = new RelayCommand(OnEnterLetter);
+            SubmitGuessCommand = new RelayCommand(_ => SubmitGuess());
+            BackspaceCommand = new RelayCommand(_ => Backspace());
+            NewGameCommand = new RelayCommand(_ => StartNewGame());
 
             StartNewGame();
         }
 
-        // -------------------------------------------------
-        // KEYBOARD CREATION
-        // -------------------------------------------------
-
         private void CreateKeyboard()
         {
-            var firstRow = new ObservableCollection<KeyModel>();
+            AddKeyboardRow("QWERTYUIOP");
+            AddKeyboardRow("ASDFGHJKL");
 
-            foreach (char letter in "QWERTYUIOP")
-            {
-                var key = new KeyModel
-                {
-                    Key = letter.ToString()
-                };
+            var lastRow = new ObservableCollection<KeyModel>();
 
-                KeyboardKeys.Add(key);
-                firstRow.Add(key);
-            }
-
-            KeyboardRows.Add(firstRow);
-
-            var secondRow = new ObservableCollection<KeyModel>();
-
-            foreach (char letter in "ASDFGHJKL")
-            {
-                var key = new KeyModel
-                {
-                    Key = letter.ToString()
-                };
-
-                KeyboardKeys.Add(key);
-                secondRow.Add(key);
-            }
-
-            KeyboardRows.Add(secondRow);
-
-            var thirdRow = new ObservableCollection<KeyModel>();
-
-            var enterKey = new KeyModel
-            {
-                Key = "ENTER"
-            };
-
-            KeyboardKeys.Add(enterKey);
-            thirdRow.Add(enterKey);
+            var enter = new KeyModel { Key = "ENTER" };
+            KeyboardKeys.Add(enter);
+            lastRow.Add(enter);
 
             foreach (char letter in "ZXCVBNM")
             {
-                var key = new KeyModel
-                {
-                    Key = letter.ToString()
-                };
-
+                var key = new KeyModel { Key = letter.ToString() };
                 KeyboardKeys.Add(key);
-                thirdRow.Add(key);
+                lastRow.Add(key);
             }
 
-            var backspaceKey = new KeyModel
-            {
-                Key = "⌫"
-            };
+            var backspace = new KeyModel { Key = "⌫" };
+            KeyboardKeys.Add(backspace);
+            lastRow.Add(backspace);
 
-            KeyboardKeys.Add(backspaceKey);
-            thirdRow.Add(backspaceKey);
-
-            KeyboardRows.Add(thirdRow);
+            KeyboardRows.Add(lastRow);
         }
 
-        // -------------------------------------------------
-        // START NEW GAME
-        // -------------------------------------------------
+        private void AddKeyboardRow(string letters)
+        {
+            var row = new ObservableCollection<KeyModel>();
+
+            foreach (char letter in letters)
+            {
+                var key = new KeyModel { Key = letter.ToString() };
+                KeyboardKeys.Add(key);
+                row.Add(key);
+            }
+
+            KeyboardRows.Add(row);
+        }
 
         public void StartNewGame()
         {
-            string previousWord = _targetWord;
+            string oldWord = targetWord;
 
             do
             {
-                _targetWord =
-                    WordList[Random.Next(WordList.Length)];
+                targetWord = wordList[random.Next(wordList.Length)];
             }
-            while (WordList.Length > 1 &&
-                   _targetWord == previousWord);
+            while (wordList.Length > 1 && targetWord == oldWord);
 
-            foreach (ObservableCollection<LetterCell> row in Guesses)
+            foreach (var row in Guesses)
             {
-                foreach (LetterCell cell in row)
+                foreach (var cell in row)
                 {
                     cell.Letter = "";
                     cell.BackgroundColor = Brushes.Transparent;
                 }
             }
 
-            foreach (KeyModel key in KeyboardKeys)
-            {
+            foreach (var key in KeyboardKeys)
                 key.BackgroundColor = Brushes.LightGray;
-            }
 
-            _currentRowIndex = 0;
-            _currentColIndex = 0;
-            _isSubmitting = false;
-
+            currentRow = 0;
+            currentColumn = 0;
+            isSubmitting = false;
             ErrorMessage = "";
             IsGameOver = false;
-
-            // Session statistics intentionally stay unchanged.
         }
-
-        // -------------------------------------------------
-        // LETTER INPUT
-        // -------------------------------------------------
 
         private void OnEnterLetter(object? parameter)
         {
-            if (IsGameOver ||
-                _isSubmitting ||
-                parameter is not string key)
-            {
+            if (IsGameOver || isSubmitting || parameter is not string key)
                 return;
-            }
 
             ErrorMessage = "";
 
             if (key == "ENTER")
             {
-                OnSubmitGuess();
+                SubmitGuess();
                 return;
             }
 
             if (key == "⌫" || key == "BACK")
             {
-                OnBackspace();
+                Backspace();
                 return;
             }
 
             if (key.Length != 1)
-            {
                 return;
-            }
 
-            if (_currentRowIndex < 6 &&
-                _currentColIndex < 5)
+            if (currentRow < 6 && currentColumn < 5)
             {
-                Guesses[_currentRowIndex][_currentColIndex].Letter =
-                    key.ToUpper();
-
-                _currentColIndex++;
+                Guesses[currentRow][currentColumn].Letter = key.ToUpper();
+                currentColumn++;
             }
         }
 
-        private void OnBackspace()
+        private void Backspace()
         {
-            if (IsGameOver || _isSubmitting)
-            {
+            if (IsGameOver || isSubmitting)
                 return;
-            }
 
             ErrorMessage = "";
 
-            if (_currentColIndex > 0)
+            if (currentColumn > 0)
             {
-                _currentColIndex--;
-
-                Guesses[_currentRowIndex][_currentColIndex].Letter = "";
+                currentColumn--;
+                Guesses[currentRow][currentColumn].Letter = "";
             }
         }
 
-        // -------------------------------------------------
-        // SUBMIT GUESS
-        // -------------------------------------------------
-
-        private async void OnSubmitGuess()
+        private async void SubmitGuess()
         {
-            if (IsGameOver || _isSubmitting)
-            {
+            if (IsGameOver || isSubmitting)
                 return;
-            }
 
-            if (_currentColIndex != 5)
+            if (currentColumn != 5)
             {
                 ErrorMessage = "Enter a five-letter word.";
                 return;
             }
 
-            _isSubmitting = true;
+            isSubmitting = true;
 
             try
             {
                 string guess = string.Join(
                     "",
-                    Guesses[_currentRowIndex]
-                        .Select(cell => cell.Letter));
+                    Guesses[currentRow].Select(cell => cell.Letter)
+                );
 
-                bool isValid =
-                    await Services.WordValidator.IsValidWordAsync(guess);
+                bool isValid = await Services.WordValidator.IsValidWordAsync(guess);
 
                 if (!isValid)
                 {
@@ -400,165 +316,124 @@ namespace Proekt_VP.ViewModels
 
                 EvaluateGuess(guess);
 
-                if (guess == _targetWord)
+                if (guess == targetWord)
                 {
-                    int attemptNumber = _currentRowIndex + 1;
+                    int attempt = currentRow + 1;
 
                     GamesPlayed++;
                     GamesWon++;
 
-                    RegisterWin(attemptNumber);
+                    AddWinToStatistics(attempt);
 
-                    ErrorMessage =
-                        $"Correct! You guessed the word in " +
-                        $"{attemptNumber} attempt(s).";
-
+                    ErrorMessage = $"Correct! You guessed the word in {attempt} attempt(s).";
                     IsGameOver = true;
                     return;
                 }
 
-                _currentRowIndex++;
-                _currentColIndex = 0;
+                currentRow++;
+                currentColumn = 0;
 
-                if (_currentRowIndex >= 6)
+                if (currentRow == 6)
                 {
                     GamesPlayed++;
                     GamesLost++;
 
-                    ErrorMessage =
-                        $"The word was {_targetWord}";
-
+                    ErrorMessage = $"The word was {targetWord}";
                     IsGameOver = true;
                 }
             }
-            catch (Exception)
+            catch
             {
-                ErrorMessage =
-                    "An error occurred while checking the word.";
+                ErrorMessage = "An error occurred while checking the word.";
             }
             finally
             {
-                _isSubmitting = false;
+                isSubmitting = false;
             }
         }
 
-        // -------------------------------------------------
-        // STATISTICS
-        // -------------------------------------------------
-
-        private void RegisterWin(int attemptNumber)
+        private void AddWinToStatistics(int attempt)
         {
-            switch (attemptNumber)
+            switch (attempt)
             {
                 case 1:
                     WonIn1++;
                     break;
-
                 case 2:
                     WonIn2++;
                     break;
-
                 case 3:
                     WonIn3++;
                     break;
-
                 case 4:
                     WonIn4++;
                     break;
-
                 case 5:
                     WonIn5++;
                     break;
-
                 case 6:
                     WonIn6++;
                     break;
             }
         }
 
-        // -------------------------------------------------
-        // GUESS EVALUATION
-        // -------------------------------------------------
-
         private void EvaluateGuess(string guess)
         {
-            List<char> remainingLetters =
-                _targetWord.ToList();
+            List<char> remainingLetters = targetWord.ToList();
 
-            // First remove the letters that are in the
-            // correct position.
-            for (int index = 0; index < 5; index++)
+            for (int i = 0; i < 5; i++)
             {
-                if (guess[index] == _targetWord[index])
-                {
-                    remainingLetters.Remove(guess[index]);
-                }
+                if (guess[i] == targetWord[i])
+                    remainingLetters.Remove(guess[i]);
             }
 
-            for (int index = 0; index < 5; index++)
+            for (int i = 0; i < 5; i++)
             {
-                char guessedCharacter = guess[index];
+                char guessedLetter = guess[i];
+                LetterCell cell = Guesses[currentRow][i];
+                Brush color;
 
-                LetterCell cell =
-                    Guesses[_currentRowIndex][index];
-
-                Brush cellColor;
-
-                if (guessedCharacter == _targetWord[index])
+                if (guessedLetter == targetWord[i])
                 {
-                    cellColor = Brushes.Green;
+                    color = Brushes.Green;
                 }
-                else if (remainingLetters.Contains(guessedCharacter))
+                else if (remainingLetters.Contains(guessedLetter))
                 {
-                    cellColor = Brushes.Goldenrod;
-                    remainingLetters.Remove(guessedCharacter);
+                    color = Brushes.Goldenrod;
+                    remainingLetters.Remove(guessedLetter);
                 }
                 else
                 {
-                    cellColor = Brushes.DarkGray;
+                    color = Brushes.DarkGray;
                 }
 
-                cell.BackgroundColor = cellColor;
-
-                UpdateKeyboardColor(
-                    guessedCharacter.ToString(),
-                    cellColor);
+                cell.BackgroundColor = color;
+                UpdateKeyboardColor(guessedLetter.ToString(), color);
             }
         }
 
-        // -------------------------------------------------
-        // KEYBOARD COLOR
-        // -------------------------------------------------
-
-        private void UpdateKeyboardColor(
-            string keyText,
-            Brush newColor)
+        private void UpdateKeyboardColor(string letter, Brush color)
         {
-            KeyModel? keyModel =
-                KeyboardKeys.FirstOrDefault(
-                    key => key.Key == keyText);
+            KeyModel? key = KeyboardKeys.FirstOrDefault(k => k.Key == letter);
 
-            if (keyModel == null)
+            if (key == null)
             {
                 return;
             }
-
-            if (newColor == Brushes.Green)
+            if (color == Brushes.Green)
             {
-                keyModel.BackgroundColor = Brushes.Green;
+                key.BackgroundColor = Brushes.Green;
             }
-            else if (newColor == Brushes.Goldenrod &&
-                     keyModel.BackgroundColor != Brushes.Green)
+            else if (color == Brushes.Goldenrod &&
+                     key.BackgroundColor != Brushes.Green)
             {
-                keyModel.BackgroundColor =
-                    Brushes.Goldenrod;
+                key.BackgroundColor = Brushes.Goldenrod;
             }
-            else if (newColor == Brushes.DarkGray &&
-                     keyModel.BackgroundColor != Brushes.Green &&
-                     keyModel.BackgroundColor != Brushes.Goldenrod)
+            else if (color == Brushes.DarkGray &&
+                     key.BackgroundColor != Brushes.Green &&
+                     key.BackgroundColor != Brushes.Goldenrod)
             {
-                keyModel.BackgroundColor =
-                    Brushes.DarkGray;
+                key.BackgroundColor = Brushes.DarkGray;
             }
         }
     }
