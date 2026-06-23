@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Proekt_VP.ViewModels;
 
 namespace Proekt_VP
 {
@@ -18,12 +10,54 @@ namespace Proekt_VP
         public DailyWordleView()
         {
             InitializeComponent();
+
+            DataContext = new UnlimitedWordleViewModel();
+
+            Loaded += DailyWordleView_Loaded;
         }
 
-        private void BackButton_Click(object sender, RoutedEventArgs e)
+        private void DailyWordleView_Loaded(
+            object sender,
+            RoutedEventArgs e)
         {
-            MainWindow mainWindow = (MainWindow)Window.GetWindow(this);
-            mainWindow.ChangeView(new MainMenuView());
+            Focus();
+            Keyboard.Focus(this);
+        }
+
+        private void DailyWordleView_KeyDown(
+            object sender,
+            KeyEventArgs e)
+        {
+            if (DataContext is not UnlimitedWordleViewModel model)
+            {
+                return;
+            }
+
+            if (e.Key == Key.Enter)
+            {
+                model.EnterLetterCommand.Execute("ENTER");
+                e.Handled = true;
+            }
+            else if (e.Key == Key.Back)
+            {
+                model.EnterLetterCommand.Execute("⌫");
+                e.Handled = true;
+            }
+            else if (e.Key >= Key.A && e.Key <= Key.Z)
+            {
+                model.EnterLetterCommand.Execute(e.Key.ToString());
+                e.Handled = true;
+            }
+        }
+
+        private void BackButton_Click(
+            object sender,
+            RoutedEventArgs e)
+        {
+            MainWindow? mainWindow =
+                Window.GetWindow(this) as MainWindow;
+
+            mainWindow?.ChangeView(new MainMenuView());
         }
     }
 }
