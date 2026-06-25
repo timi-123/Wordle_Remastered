@@ -49,7 +49,8 @@
             <TextBlock Text="Played: "
                        FontSize="16"/>
 
-            <TextBlock Text="{Binding GamesPlayed, Mode=OneWay}"
+            <TextBlock Text="{Binding GamesPlayed,
+                                      Mode=OneWay}"
                        FontSize="16"
                        FontWeight="Bold"
                        Margin="0,0,20,0"/>
@@ -57,7 +58,8 @@
             <TextBlock Text="Won: "
                        FontSize="16"/>
 
-            <TextBlock Text="{Binding GamesWon, Mode=OneWay}"
+            <TextBlock Text="{Binding GamesWon,
+                                      Mode=OneWay}"
                        FontSize="16"
                        FontWeight="Bold"
                        Margin="0,0,20,0"/>
@@ -65,7 +67,8 @@
             <TextBlock Text="Lost: "
                        FontSize="16"/>
 
-            <TextBlock Text="{Binding GamesLost, Mode=OneWay}"
+            <TextBlock Text="{Binding GamesLost,
+                                      Mode=OneWay}"
                        FontSize="16"
                        FontWeight="Bold"
                        Margin="0,0,20,0"/>
@@ -101,16 +104,18 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <controls:WordleBoardControl Grid.Row="0"
-                                             x:Name="Board"
-                                             HorizontalAlignment="Center"
-                                             VerticalAlignment="Center"/>
+                <controls:WordleBoardControl
+                    Grid.Row="0"
+                    x:Name="Board"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"/>
 
                 <StackPanel Grid.Row="1"
                             HorizontalAlignment="Center"
                             Margin="10">
 
-                    <TextBlock Text="{Binding ErrorMessage, Mode=OneWay}"
+                    <TextBlock Text="{Binding ErrorMessage,
+                                              Mode=OneWay}"
                                FontSize="18"
                                FontWeight="SemiBold"
                                HorizontalAlignment="Center"
@@ -151,8 +156,8 @@
             </Grid>
 
             <Border Grid.Column="1"
-                    Width="300"
-                    Padding="15"
+                    Width="330"
+                    Padding="18"
                     Margin="25,0,0,0"
                     BorderBrush="Gray"
                     BorderThickness="1"
@@ -188,131 +193,222 @@
                                HorizontalAlignment="Center"
                                Margin="0,0,0,10"/>
 
-                    <Grid>
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Margin="0,0,0,15">
+
+                        <StackPanel Margin="8,0">
+
+                            <TextBlock Text="{Binding GamesPlayed,
+                                                      Mode=OneWay}"
+                                       FontSize="20"
+                                       FontWeight="Bold"
+                                       HorizontalAlignment="Center"/>
+
+                            <TextBlock Text="Played"
+                                       HorizontalAlignment="Center"/>
+
+                        </StackPanel>
+
+                        <StackPanel Margin="8,0">
+
+                            <TextBlock Text="{Binding GamesWon,
+                                                      Mode=OneWay}"
+                                       FontSize="20"
+                                       FontWeight="Bold"
+                                       HorizontalAlignment="Center"/>
+
+                            <TextBlock Text="Won"
+                                       HorizontalAlignment="Center"/>
+
+                        </StackPanel>
+
+                        <StackPanel Margin="8,0">
+
+                            <TextBlock Text="{Binding GamesLost,
+                                                      Mode=OneWay}"
+                                       FontSize="20"
+                                       FontWeight="Bold"
+                                       HorizontalAlignment="Center"/>
+
+                            <TextBlock Text="Lost"
+                                       HorizontalAlignment="Center"/>
+
+                        </StackPanel>
+
+                    </StackPanel>
+
+                    <TextBlock Text="GUESS DISTRIBUTION"
+                               FontSize="17"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Center"
+                               Margin="0,5,0,12"/>
+
+                    <Grid Width="260">
 
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="25"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="34"/>
+                            <RowDefinition Height="34"/>
+                            <RowDefinition Height="34"/>
+                            <RowDefinition Height="34"/>
+                            <RowDefinition Height="34"/>
+                            <RowDefinition Height="34"/>
                         </Grid.RowDefinitions>
 
                         <TextBlock Grid.Row="0"
                                    Grid.Column="0"
-                                   Text="Guessed in 1 attempt:"
-                                   Margin="3"/>
-
-                        <TextBlock Grid.Row="0"
-                                   Grid.Column="1"
-                                   Text="{Binding WonIn1, Mode=OneWay}"
+                                   Text="1"
+                                   FontSize="15"
                                    FontWeight="Bold"
-                                   Margin="10,3,3,3"/>
+                                   VerticalAlignment="Center"/>
+
+                        <Border Grid.Row="0"
+                                Grid.Column="1"
+                                Width="{Binding Distribution1Width,
+                                                Mode=OneWay}"
+                                Height="25"
+                                Background="#538D4E"
+                                HorizontalAlignment="Left">
+
+                            <TextBlock Text="{Binding WonIn1,
+                                                      Mode=OneWay}"
+                                       Foreground="White"
+                                       FontWeight="Bold"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Center"
+                                       Margin="5,0"/>
+
+                        </Border>
 
                         <TextBlock Grid.Row="1"
                                    Grid.Column="0"
-                                   Text="Guessed in 2 attempts:"
-                                   Margin="3"/>
-
-                        <TextBlock Grid.Row="1"
-                                   Grid.Column="1"
-                                   Text="{Binding WonIn2, Mode=OneWay}"
+                                   Text="2"
+                                   FontSize="15"
                                    FontWeight="Bold"
-                                   Margin="10,3,3,3"/>
+                                   VerticalAlignment="Center"/>
+
+                        <Border Grid.Row="1"
+                                Grid.Column="1"
+                                Width="{Binding Distribution2Width,
+                                                Mode=OneWay}"
+                                Height="25"
+                                Background="#538D4E"
+                                HorizontalAlignment="Left">
+
+                            <TextBlock Text="{Binding WonIn2,
+                                                      Mode=OneWay}"
+                                       Foreground="White"
+                                       FontWeight="Bold"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Center"
+                                       Margin="5,0"/>
+
+                        </Border>
 
                         <TextBlock Grid.Row="2"
                                    Grid.Column="0"
-                                   Text="Guessed in 3 attempts:"
-                                   Margin="3"/>
-
-                        <TextBlock Grid.Row="2"
-                                   Grid.Column="1"
-                                   Text="{Binding WonIn3, Mode=OneWay}"
+                                   Text="3"
+                                   FontSize="15"
                                    FontWeight="Bold"
-                                   Margin="10,3,3,3"/>
+                                   VerticalAlignment="Center"/>
+
+                        <Border Grid.Row="2"
+                                Grid.Column="1"
+                                Width="{Binding Distribution3Width,
+                                                Mode=OneWay}"
+                                Height="25"
+                                Background="#538D4E"
+                                HorizontalAlignment="Left">
+
+                            <TextBlock Text="{Binding WonIn3,
+                                                      Mode=OneWay}"
+                                       Foreground="White"
+                                       FontWeight="Bold"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Center"
+                                       Margin="5,0"/>
+
+                        </Border>
 
                         <TextBlock Grid.Row="3"
                                    Grid.Column="0"
-                                   Text="Guessed in 4 attempts:"
-                                   Margin="3"/>
-
-                        <TextBlock Grid.Row="3"
-                                   Grid.Column="1"
-                                   Text="{Binding WonIn4, Mode=OneWay}"
+                                   Text="4"
+                                   FontSize="15"
                                    FontWeight="Bold"
-                                   Margin="10,3,3,3"/>
+                                   VerticalAlignment="Center"/>
+
+                        <Border Grid.Row="3"
+                                Grid.Column="1"
+                                Width="{Binding Distribution4Width,
+                                                Mode=OneWay}"
+                                Height="25"
+                                Background="#538D4E"
+                                HorizontalAlignment="Left">
+
+                            <TextBlock Text="{Binding WonIn4,
+                                                      Mode=OneWay}"
+                                       Foreground="White"
+                                       FontWeight="Bold"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Center"
+                                       Margin="5,0"/>
+
+                        </Border>
 
                         <TextBlock Grid.Row="4"
                                    Grid.Column="0"
-                                   Text="Guessed in 5 attempts:"
-                                   Margin="3"/>
-
-                        <TextBlock Grid.Row="4"
-                                   Grid.Column="1"
-                                   Text="{Binding WonIn5, Mode=OneWay}"
+                                   Text="5"
+                                   FontSize="15"
                                    FontWeight="Bold"
-                                   Margin="10,3,3,3"/>
+                                   VerticalAlignment="Center"/>
+
+                        <Border Grid.Row="4"
+                                Grid.Column="1"
+                                Width="{Binding Distribution5Width,
+                                                Mode=OneWay}"
+                                Height="25"
+                                Background="#538D4E"
+                                HorizontalAlignment="Left">
+
+                            <TextBlock Text="{Binding WonIn5,
+                                                      Mode=OneWay}"
+                                       Foreground="White"
+                                       FontWeight="Bold"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Center"
+                                       Margin="5,0"/>
+
+                        </Border>
 
                         <TextBlock Grid.Row="5"
                                    Grid.Column="0"
-                                   Text="Guessed in 6 attempts:"
-                                   Margin="3"/>
-
-                        <TextBlock Grid.Row="5"
-                                   Grid.Column="1"
-                                   Text="{Binding WonIn6, Mode=OneWay}"
+                                   Text="6"
+                                   FontSize="15"
                                    FontWeight="Bold"
-                                   Margin="10,3,3,3"/>
+                                   VerticalAlignment="Center"/>
 
-                        <Separator Grid.Row="6"
-                                   Grid.ColumnSpan="2"
-                                   Margin="0,8"/>
+                        <Border Grid.Row="5"
+                                Grid.Column="1"
+                                Width="{Binding Distribution6Width,
+                                                Mode=OneWay}"
+                                Height="25"
+                                Background="#538D4E"
+                                HorizontalAlignment="Left">
 
-                        <TextBlock Grid.Row="7"
-                                   Grid.Column="0"
-                                   Text="Total played:"
-                                   FontWeight="SemiBold"
-                                   Margin="3"/>
+                            <TextBlock Text="{Binding WonIn6,
+                                                      Mode=OneWay}"
+                                       Foreground="White"
+                                       FontWeight="Bold"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Center"
+                                       Margin="5,0"/>
 
-                        <TextBlock Grid.Row="7"
-                                   Grid.Column="1"
-                                   Text="{Binding GamesPlayed, Mode=OneWay}"
-                                   FontWeight="Bold"
-                                   Margin="10,3,3,3"/>
-
-                        <TextBlock Grid.Row="8"
-                                   Grid.Column="0"
-                                   Text="Total wins:"
-                                   FontWeight="SemiBold"
-                                   Margin="3"/>
-
-                        <TextBlock Grid.Row="8"
-                                   Grid.Column="1"
-                                   Text="{Binding GamesWon, Mode=OneWay}"
-                                   FontWeight="Bold"
-                                   Margin="10,3,3,3"/>
-
-                        <TextBlock Grid.Row="9"
-                                   Grid.Column="0"
-                                   Text="Total losses:"
-                                   FontWeight="SemiBold"
-                                   Margin="3"/>
-
-                        <TextBlock Grid.Row="9"
-                                   Grid.Column="1"
-                                   Text="{Binding GamesLost, Mode=OneWay}"
-                                   FontWeight="Bold"
-                                   Margin="10,3,3,3"/>
+                        </Border>
 
                     </Grid>
 

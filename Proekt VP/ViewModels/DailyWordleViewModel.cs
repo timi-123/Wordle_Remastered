@@ -99,37 +99,61 @@ namespace Proekt_VP.ViewModels
         public int WonIn1
         {
             get => wonIn1;
-            set => SetProperty(ref wonIn1, value);
+            set
+            {
+                SetProperty(ref wonIn1, value);
+                UpdateDistribution();
+            }
         }
 
         public int WonIn2
         {
             get => wonIn2;
-            set => SetProperty(ref wonIn2, value);
+            set
+            {
+                SetProperty(ref wonIn2, value);
+                UpdateDistribution();
+            }
         }
 
         public int WonIn3
         {
             get => wonIn3;
-            set => SetProperty(ref wonIn3, value);
+            set
+            {
+                SetProperty(ref wonIn3, value);
+                UpdateDistribution();
+            }
         }
 
         public int WonIn4
         {
             get => wonIn4;
-            set => SetProperty(ref wonIn4, value);
+            set
+            {
+                SetProperty(ref wonIn4, value);
+                UpdateDistribution();
+            }
         }
 
         public int WonIn5
         {
             get => wonIn5;
-            set => SetProperty(ref wonIn5, value);
+            set
+            {
+                SetProperty(ref wonIn5, value);
+                UpdateDistribution();
+            }
         }
 
         public int WonIn6
         {
             get => wonIn6;
-            set => SetProperty(ref wonIn6, value);
+            set
+            {
+                SetProperty(ref wonIn6, value);
+                UpdateDistribution();
+            }
         }
 
         public double WinPercentage
@@ -143,6 +167,29 @@ namespace Proekt_VP.ViewModels
             }
         }
 
+        public double Distribution1Width => CalculateBarWidth(WonIn1);
+        public double Distribution2Width => CalculateBarWidth(WonIn2);
+        public double Distribution3Width => CalculateBarWidth(WonIn3);
+        public double Distribution4Width => CalculateBarWidth(WonIn4);
+        public double Distribution5Width => CalculateBarWidth(WonIn5);
+        public double Distribution6Width => CalculateBarWidth(WonIn6);
+
+        private int MaxDistributionValue
+        {
+            get
+            {
+                return new[]
+                {
+                    WonIn1,
+                    WonIn2,
+                    WonIn3,
+                    WonIn4,
+                    WonIn5,
+                    WonIn6
+                }.Max();
+            }
+        }
+
         public ICommand EnterLetterCommand { get; }
         public ICommand SubmitGuessCommand { get; }
         public ICommand BackspaceCommand { get; }
@@ -150,27 +197,39 @@ namespace Proekt_VP.ViewModels
 
         public UnlimitedWordleViewModel()
         {
-            Guesses = new ObservableCollection<ObservableCollection<LetterCell>>();
+            Guesses =
+                new ObservableCollection<ObservableCollection<LetterCell>>();
 
             for (int i = 0; i < 6; i++)
             {
                 var row = new ObservableCollection<LetterCell>();
 
                 for (int j = 0; j < 5; j++)
+                {
                     row.Add(new LetterCell());
+                }
 
                 Guesses.Add(row);
             }
 
             KeyboardKeys = new ObservableCollection<KeyModel>();
-            KeyboardRows = new ObservableCollection<ObservableCollection<KeyModel>>();
+
+            KeyboardRows =
+                new ObservableCollection<ObservableCollection<KeyModel>>();
 
             CreateKeyboard();
 
-            EnterLetterCommand = new RelayCommand(OnEnterLetter);
-            SubmitGuessCommand = new RelayCommand(_ => SubmitGuess());
-            BackspaceCommand = new RelayCommand(_ => Backspace());
-            NewGameCommand = new RelayCommand(_ => StartNewGame());
+            EnterLetterCommand =
+                new RelayCommand(OnEnterLetter);
+
+            SubmitGuessCommand =
+                new RelayCommand(_ => SubmitGuess());
+
+            BackspaceCommand =
+                new RelayCommand(_ => Backspace());
+
+            NewGameCommand =
+                new RelayCommand(_ => StartNewGame());
 
             StartNewGame();
         }
@@ -182,20 +241,32 @@ namespace Proekt_VP.ViewModels
 
             var lastRow = new ObservableCollection<KeyModel>();
 
-            var enter = new KeyModel { Key = "ENTER" };
-            KeyboardKeys.Add(enter);
-            lastRow.Add(enter);
+            var enterKey = new KeyModel
+            {
+                Key = "ENTER"
+            };
+
+            KeyboardKeys.Add(enterKey);
+            lastRow.Add(enterKey);
 
             foreach (char letter in "ZXCVBNM")
             {
-                var key = new KeyModel { Key = letter.ToString() };
+                var key = new KeyModel
+                {
+                    Key = letter.ToString()
+                };
+
                 KeyboardKeys.Add(key);
                 lastRow.Add(key);
             }
 
-            var backspace = new KeyModel { Key = "⌫" };
-            KeyboardKeys.Add(backspace);
-            lastRow.Add(backspace);
+            var backspaceKey = new KeyModel
+            {
+                Key = "⌫"
+            };
+
+            KeyboardKeys.Add(backspaceKey);
+            lastRow.Add(backspaceKey);
 
             KeyboardRows.Add(lastRow);
         }
@@ -206,7 +277,11 @@ namespace Proekt_VP.ViewModels
 
             foreach (char letter in letters)
             {
-                var key = new KeyModel { Key = letter.ToString() };
+                var key = new KeyModel
+                {
+                    Key = letter.ToString()
+                };
+
                 KeyboardKeys.Add(key);
                 row.Add(key);
             }
@@ -220,33 +295,44 @@ namespace Proekt_VP.ViewModels
 
             do
             {
-                targetWord = wordList[random.Next(wordList.Length)];
+                targetWord =
+                    wordList[random.Next(wordList.Length)];
             }
-            while (wordList.Length > 1 && targetWord == oldWord);
+            while (wordList.Length > 1 &&
+                   targetWord == oldWord);
 
             foreach (var row in Guesses)
             {
                 foreach (var cell in row)
                 {
                     cell.Letter = "";
-                    cell.BackgroundColor = Brushes.Transparent;
+                    cell.BackgroundColor =
+                        Brushes.Transparent;
                 }
             }
 
             foreach (var key in KeyboardKeys)
-                key.BackgroundColor = Brushes.LightGray;
+            {
+                key.BackgroundColor =
+                    Brushes.LightGray;
+            }
 
             currentRow = 0;
             currentColumn = 0;
             isSubmitting = false;
+
             ErrorMessage = "";
             IsGameOver = false;
         }
 
         private void OnEnterLetter(object? parameter)
         {
-            if (IsGameOver || isSubmitting || parameter is not string key)
+            if (IsGameOver ||
+                isSubmitting ||
+                parameter is not string key)
+            {
                 return;
+            }
 
             ErrorMessage = "";
 
@@ -263,11 +349,16 @@ namespace Proekt_VP.ViewModels
             }
 
             if (key.Length != 1)
-                return;
-
-            if (currentRow < 6 && currentColumn < 5)
             {
-                Guesses[currentRow][currentColumn].Letter = key.ToUpper();
+                return;
+            }
+
+            if (currentRow < 6 &&
+                currentColumn < 5)
+            {
+                Guesses[currentRow][currentColumn].Letter =
+                    key.ToUpper();
+
                 currentColumn++;
             }
         }
@@ -275,13 +366,16 @@ namespace Proekt_VP.ViewModels
         private void Backspace()
         {
             if (IsGameOver || isSubmitting)
+            {
                 return;
+            }
 
             ErrorMessage = "";
 
             if (currentColumn > 0)
             {
                 currentColumn--;
+
                 Guesses[currentRow][currentColumn].Letter = "";
             }
         }
@@ -289,11 +383,15 @@ namespace Proekt_VP.ViewModels
         private async void SubmitGuess()
         {
             if (IsGameOver || isSubmitting)
+            {
                 return;
+            }
 
             if (currentColumn != 5)
             {
-                ErrorMessage = "Enter a five-letter word.";
+                ErrorMessage =
+                    "Enter a five-letter word.";
+
                 return;
             }
 
@@ -303,10 +401,13 @@ namespace Proekt_VP.ViewModels
             {
                 string guess = string.Join(
                     "",
-                    Guesses[currentRow].Select(cell => cell.Letter)
+                    Guesses[currentRow]
+                        .Select(cell => cell.Letter)
                 );
 
-                bool isValid = await Services.WordValidator.IsValidWordAsync(guess);
+                bool isValid =
+                    await Services.WordValidator
+                        .IsValidWordAsync(guess);
 
                 if (!isValid)
                 {
@@ -325,7 +426,10 @@ namespace Proekt_VP.ViewModels
 
                     AddWinToStatistics(attempt);
 
-                    ErrorMessage = $"Correct! You guessed the word in {attempt} attempt(s).";
+                    ErrorMessage =
+                        $"Correct! You guessed the word in " +
+                        $"{attempt} attempt(s).";
+
                     IsGameOver = true;
                     return;
                 }
@@ -338,13 +442,16 @@ namespace Proekt_VP.ViewModels
                     GamesPlayed++;
                     GamesLost++;
 
-                    ErrorMessage = $"The word was {targetWord}";
+                    ErrorMessage =
+                        $"The word was {targetWord}";
+
                     IsGameOver = true;
                 }
             }
             catch
             {
-                ErrorMessage = "An error occurred while checking the word.";
+                ErrorMessage =
+                    "An error occurred while checking the word.";
             }
             finally
             {
@@ -359,38 +466,76 @@ namespace Proekt_VP.ViewModels
                 case 1:
                     WonIn1++;
                     break;
+
                 case 2:
                     WonIn2++;
                     break;
+
                 case 3:
                     WonIn3++;
                     break;
+
                 case 4:
                     WonIn4++;
                     break;
+
                 case 5:
                     WonIn5++;
                     break;
+
                 case 6:
                     WonIn6++;
                     break;
             }
         }
 
+        private double CalculateBarWidth(int value)
+        {
+            int maximumValue = MaxDistributionValue;
+
+            if (maximumValue == 0)
+            {
+                return 30;
+            }
+
+            const double minimumWidth = 30;
+            const double additionalWidth = 170;
+
+            return minimumWidth +
+                   (double)value / maximumValue *
+                   additionalWidth;
+        }
+
+        private void UpdateDistribution()
+        {
+            OnPropertyChanged(nameof(Distribution1Width));
+            OnPropertyChanged(nameof(Distribution2Width));
+            OnPropertyChanged(nameof(Distribution3Width));
+            OnPropertyChanged(nameof(Distribution4Width));
+            OnPropertyChanged(nameof(Distribution5Width));
+            OnPropertyChanged(nameof(Distribution6Width));
+        }
+
         private void EvaluateGuess(string guess)
         {
-            List<char> remainingLetters = targetWord.ToList();
+            List<char> remainingLetters =
+                targetWord.ToList();
 
             for (int i = 0; i < 5; i++)
             {
                 if (guess[i] == targetWord[i])
+                {
                     remainingLetters.Remove(guess[i]);
+                }
             }
 
             for (int i = 0; i < 5; i++)
             {
                 char guessedLetter = guess[i];
-                LetterCell cell = Guesses[currentRow][i];
+
+                LetterCell cell =
+                    Guesses[currentRow][i];
+
                 Brush color;
 
                 if (guessedLetter == targetWord[i])
@@ -408,32 +553,44 @@ namespace Proekt_VP.ViewModels
                 }
 
                 cell.BackgroundColor = color;
-                UpdateKeyboardColor(guessedLetter.ToString(), color);
+
+                UpdateKeyboardColor(
+                    guessedLetter.ToString(),
+                    color);
             }
         }
 
-        private void UpdateKeyboardColor(string letter, Brush color)
+        private void UpdateKeyboardColor(
+            string letter,
+            Brush color)
         {
-            KeyModel? key = KeyboardKeys.FirstOrDefault(k => k.Key == letter);
+            KeyModel? key =
+                KeyboardKeys.FirstOrDefault(
+                    keyboardKey =>
+                        keyboardKey.Key == letter);
 
             if (key == null)
             {
                 return;
             }
+
             if (color == Brushes.Green)
             {
-                key.BackgroundColor = Brushes.Green;
+                key.BackgroundColor =
+                    Brushes.Green;
             }
             else if (color == Brushes.Goldenrod &&
                      key.BackgroundColor != Brushes.Green)
             {
-                key.BackgroundColor = Brushes.Goldenrod;
+                key.BackgroundColor =
+                    Brushes.Goldenrod;
             }
             else if (color == Brushes.DarkGray &&
                      key.BackgroundColor != Brushes.Green &&
                      key.BackgroundColor != Brushes.Goldenrod)
             {
-                key.BackgroundColor = Brushes.DarkGray;
+                key.BackgroundColor =
+                    Brushes.DarkGray;
             }
         }
     }
