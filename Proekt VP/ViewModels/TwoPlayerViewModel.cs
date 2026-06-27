@@ -14,7 +14,7 @@ namespace Proekt_VP.ViewModels
         private const int StartHP = 1000;
         private const int GreenDamage = 25;
         private const int YellowDamage = 10;
-        private const int SolveBurst = 250;
+        private const int SolveBurst = 150;
         private const int GreenHeal = 12;
         private const int YellowHeal = 6;
         private const int TimeoutPenalty = 100;
