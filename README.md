@@ -226,3 +226,25 @@ private void EvaluateGuess(string guess)
 Така бројот на жолти + зелени за дадена буква никогаш не го надминува бројот на нејзини појавувања во скриениот збор, точно како во оригиналниот Wordle. На крај, `UpdateKeyboardColor` ја пресликува бојата и на тастатурата, притоа почитувајќи приоритет (зелено > жолто > сиво) за веќе обоено копче да не се обои погрешно.
 
 Истата логика со двојно минување повторно се користи и при бодувањето во `SinglePlayerViewModel`, и при пресметката на штета/лекување во `TwoPlayerViewModel.ResolveGuessAsync`.
+
+---
+
+## 5. Користење на генеративна вештачка интелигенција (Gen AI)
+
+Во текот на изработката на проектот, тимот користеше алатки за генеративна вештачка интелигенција како помошно средство и ментор, под наша насока и контрола. Одлуките за дизајнот, функционалностите и архитектурата ги донесовме ние, а кодот го интегриравме, тестиравме и потврдувавме самите.
+
+Конкретно, Gen AI ни помогна за:
+
+- **Учење на WPF и MVVM**, бидејќи WPF беше нов за нас, го користевме за да разбереме како е структуриран еден WPF проект (поделбата на View / ViewModel, data binding, `INotifyPropertyChanged`, `ObservableCollection`, команди преку ICommand`).
+- **Структура на проектот и документацијата**, совети како да ги организираме класите/фолдерите.
+- **Преглед на код**, го користевме како искусен инженер кој ни го ревидира кодот, укажуваше на грешки и edge-cases (боењето при повторени букви и услов на трка кај тајмерот во режимот за двајца) и предлагаше почисти решенија и рефакторирања (издвојување на логиката во `GuessEvaluator` и `WordValidator`).
+- **Помош при дебагирање**, побрзо лоцирање на причината за одредени проблеми.
+
+Финалната верзија на секоја функционалност ја доуредувавме и потврдувавме ние, според нашите потреби и стил.
+
+**Искористени промптови:**
+
+> "Explain how MVVM works in WPF, what goes in the View versus the ViewModel, how data binding and `INotifyPropertyChanged` connect them and how to render a dynamic grid with `ObservableCollection`."
+
+> "Act as a senior C#/WPF engineer. Review this ViewModel from an MVVM Wordle game. Point out bugs, race conditions and places where logic is duplicated. Don't rewrite anything, but explain the issues and suggest minimal fixes."
+
