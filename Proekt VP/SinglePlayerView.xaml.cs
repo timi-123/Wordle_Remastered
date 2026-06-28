@@ -27,8 +27,6 @@ namespace Proekt_VP
             currentModelInstance = model;
             DataContext = model;
             DurationSelection.Visibility = Visibility.Collapsed;
-            //Board.Visibility = Visibility.Visible;
-            //TimerAndScore.Visibility = Visibility.Visible;
             Game.Visibility = Visibility.Visible;
 
             Keyboard.Focus(this);
@@ -71,8 +69,6 @@ namespace Proekt_VP
 
                 if (popup.PlayAgain)
                 {
-                    //Board.Visibility = Visibility.Collapsed;
-                    //TimerAndScore.Visibility = Visibility.Collapsed;
                     Game.Visibility = Visibility.Collapsed;
                     DurationSelection.Visibility = Visibility.Visible;
                 }

@@ -13,9 +13,6 @@ using System.Windows.Shapes;
 
 namespace Proekt_VP.Controls
 {
-    /// <summary>
-    /// Interaction logic for TimerAndScoreControl.xaml
-    /// </summary>
     public partial class TimerAndScoreControl : UserControl
     {
         public TimerAndScoreControl()

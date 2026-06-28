@@ -88,6 +88,8 @@ namespace Proekt_VP.ViewModels
 
         public bool P1EntryComplete => P1ChosenWords.Count == WordsPerPlayer;
         public bool P2EntryComplete => P2ChosenWords.Count == WordsPerPlayer;
+        public bool P1CanAddWord => P1ChosenWords.Count < WordsPerPlayer;
+        public bool P2CanAddWord => P2ChosenWords.Count < WordsPerPlayer;
 
         public TwoPlayerViewModel()
         {
@@ -143,7 +145,20 @@ namespace Proekt_VP.ViewModels
             list.Add(word);
             OnPropertyChanged(nameof(P1EntryComplete));
             OnPropertyChanged(nameof(P2EntryComplete));
+            OnPropertyChanged(nameof(P1CanAddWord));
+            OnPropertyChanged(nameof(P2CanAddWord));
             return true;
+        }
+
+        public void RemoveWord(int player, string word)
+        {
+            var list = player == 1 ? P1ChosenWords : P2ChosenWords;
+            list.Remove(word);
+            WordEntryError = "";
+            OnPropertyChanged(nameof(P1EntryComplete));
+            OnPropertyChanged(nameof(P2EntryComplete));
+            OnPropertyChanged(nameof(P1CanAddWord));
+            OnPropertyChanged(nameof(P2CanAddWord));
         }
 
         public void StartBattle()
@@ -248,7 +263,7 @@ namespace Proekt_VP.ViewModels
                 {
                     string missed = attacker.CurrentTargetWord;
                     attacker.AdvanceToNextWord();
-                    attacker.ErrorMessage = $"Out of guesses — was {missed}";
+                    attacker.ErrorMessage = $"Out of guesses, the word was {missed}";
                 }
             }
 

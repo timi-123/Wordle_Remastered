@@ -207,51 +207,9 @@ namespace Proekt_VP.ViewModels
 
         public (int Greens, int Yellows) ApplyGuessColors(string guess)
         {
-            string target = CurrentTargetWord;
-            int greens = 0;
-            int yellows = 0;
-
-            for (int i = 0; i < 5; i++)
-            {
-                char guessedChar = guess[i];
-                var cell = Guesses[_currentRowIndex][i];
-
-                Brush cellColor;
-                if (i < target.Length && guessedChar == target[i])
-                {
-                    cellColor = Brushes.Green;
-                    greens++;
-                }
-                else if (target.Contains(guessedChar))
-                {
-                    cellColor = Brushes.Goldenrod;
-                    yellows++;
-                }
-                else
-                {
-                    cellColor = Brushes.DarkGray;
-                }
-
-                cell.BackgroundColor = cellColor;
-
-                var keyModel = KeyboardKeys.FirstOrDefault(k => k.Key == guessedChar.ToString());
-                if (keyModel != null)
-                {
-                    if (cellColor == Brushes.Green)
-                    {
-                        keyModel.BackgroundColor = Brushes.Green;
-                    }
-                    else if (cellColor == Brushes.Goldenrod && keyModel.BackgroundColor != Brushes.Green)
-                    {
-                        keyModel.BackgroundColor = Brushes.Goldenrod;
-                    }
-                    else if (cellColor == Brushes.DarkGray && keyModel.BackgroundColor != Brushes.Green && keyModel.BackgroundColor != Brushes.Goldenrod)
-                    {
-                        keyModel.BackgroundColor = Brushes.DarkGray;
-                    }
-                }
-            }
-
+            var statuses = Services.GuessEvaluator.ApplyToRow(Guesses[_currentRowIndex], KeyboardKeys, guess, CurrentTargetWord);
+            int greens = statuses.Count(s => s == Services.LetterStatus.Correct);
+            int yellows = statuses.Count(s => s == Services.LetterStatus.Present);
             return (greens, yellows);
         }
 

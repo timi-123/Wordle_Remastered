@@ -12,9 +12,6 @@ using System.Windows.Shapes;
 
 namespace Proekt_VP
 {
-    /// <summary>
-    /// Interaction logic for GameOverWindow.xaml
-    /// </summary>
     public partial class GameOverWindow : Window
     {
         public bool PlayAgain { get; set; } = false;

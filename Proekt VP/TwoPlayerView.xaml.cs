@@ -63,6 +63,15 @@ namespace Proekt_VP
             }
         }
 
+        private void P1RemoveWordClick(object sender, RoutedEventArgs e)
+        {
+            if (((FrameworkElement)sender).DataContext is string word)
+            {
+                _vm.RemoveWord(1, word);
+            }
+            P1WordInput.Focus();
+        }
+
         private void P1ConfirmClick(object sender, RoutedEventArgs e)
         {
             _vm.WordEntryError = "";
@@ -91,6 +100,15 @@ namespace Proekt_VP
                 P2AddWordClick(sender, e);
                 e.Handled = true;
             }
+        }
+
+        private void P2RemoveWordClick(object sender, RoutedEventArgs e)
+        {
+            if (((FrameworkElement)sender).DataContext is string word)
+            {
+                _vm.RemoveWord(2, word);
+            }
+            P2WordInput.Focus();
         }
 
         private void P2ConfirmClick(object sender, RoutedEventArgs e)
