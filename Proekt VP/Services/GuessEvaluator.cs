@@ -22,6 +22,11 @@ namespace Proekt_VP.Services
 
             for (int i = 0; i < guess.Length; i++)
             {
+                statuses[i] = LetterStatus.Absent;
+            }
+
+            for (int i = 0; i < guess.Length; i++)
+            {
                 if (i < target.Length && guess[i] == target[i])
                 {
                     statuses[i] = LetterStatus.Correct;
@@ -48,12 +53,15 @@ namespace Proekt_VP.Services
 
         public static Brush ColorFor(LetterStatus status)
         {
-            return status switch
+            if (status == LetterStatus.Correct)
             {
-                LetterStatus.Correct => Brushes.Green,
-                LetterStatus.Present => Brushes.Goldenrod,
-                _ => Brushes.DarkGray
-            };
+                return Brushes.Green;
+            }
+            if (status == LetterStatus.Present)
+            {
+                return Brushes.Goldenrod;
+            }
+            return Brushes.DarkGray;
         }
 
         public static LetterStatus[] ApplyToRow(

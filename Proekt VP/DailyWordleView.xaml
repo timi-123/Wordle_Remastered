@@ -114,13 +114,6 @@
                             HorizontalAlignment="Center"
                             Margin="10">
 
-                    <TextBlock Text="{Binding ErrorMessage,
-                                              Mode=OneWay}"
-                               FontSize="18"
-                               FontWeight="SemiBold"
-                               HorizontalAlignment="Center"
-                               Margin="5"/>
-
                     <Button Content="PLAY AGAIN"
                             Width="170"
                             Height="42"
