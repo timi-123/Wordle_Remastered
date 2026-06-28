@@ -122,7 +122,7 @@ public ObservableCollection<ObservableCollection<KeyModel>> KeyboardRows;
 public ObservableCollection<KeyModel> KeyboardKeys;
 ```
 
-**Скриениот збор** се избира случајно од листа од 80 зборови со 5 букви:
+**Скриениот збор** се избира случајно од листа од зборови со 5 букви:
 
 ```csharp
 private static string[] wordList = { "HELLO", "WORLD", "BRAIN", /* ... */ };
