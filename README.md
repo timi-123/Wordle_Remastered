@@ -27,21 +27,21 @@ _Изработено од: да се договориме за редослед
 
 ### 2.1 Главно мени
 
-При стартување на апликацијата се отвора главното мени со три копчиња: **Daily Wordle**, **Singleplayer Mode** и **2 Player Mode**.
+При стартување на апликацијата се отвора главното мени со три копчиња: **Daily Wordle**, **Singleplayer Mode** и **2 Player Mode**.<br/>
 <img src="images/1. Main menu.png" width="45%">
 Со клик на копче се менува активниот поглед (преку `MainWindow.ChangeView(...)`), а копчето **← Back to Menu** во секој режим враќа назад во менито.
 
 ### 2.2 Unlimited Wordle
 
-Наједноставниот, класичен режим. Се генерира случаен скриен збор и играчот го погодува во максимум од 6 погодоци.
-<img src="images/3. UW first guess.png" width="45%" hspace="15"><img src="images/4. UW second guess.png" width="45%">
-По завршување (победа или пораз) се прикажува порака и копче **PLAY AGAIN** за нова рунда, а десно се ажурира панелот со **статистика на сесијата**.
+Наједноставниот, класичен режим. Се генерира случаен скриен збор и играчот го погодува во максимум од 6 погодоци.<br/>
+<img src="images/3. UW first guess.png" width="45%" hspace="15"><img src="images/4. UW second guess.png" width="45%"><br/>
+По завршување (победа или пораз) се прикажува порака и копче **PLAY AGAIN** за нова рунда, а десно се ажурира панелот со **статистика на сесијата**.<br/>
 <img src="images/7. UW wrong guess.png" width="45%">
 
 ### 2.3 Singleplayer (Timed)
 
-Прво се избира временско ограничување (**1 / 2 / 3 минути**).
-<img src="images/8. Singleplayer time limit screen.png" width="45%">
+Прво се избира временско ограничување (**1 / 2 / 3 минути**).<br/>
+<img src="images/8. Singleplayer time limit screen.png" width="45%"><br/>
 
 Потоа започнува трка со време, целта е да се погодат **што повеќе зборови** пред да истече часовникот. Штом ќе се погоди зборот (или ќе се потрошат сите 6 обиди), екранот автоматски се ресетира со нов случаен збор. Системот за поени доделува:
 
@@ -62,9 +62,11 @@ _Изработено од: да се договориме за редослед
 1. **Време по обид**, се избира временски лимит по потег (10 / 20 / 30 секунди).
 <img src="images/15. 2 player time per guess screen.png" width="45%">
 2. **Избор на зборови**, Играч 1 тајно внесува **5 збора со 5 букви** за противникот (секој се валидира преку речник), потоа екран за **предавање на уредот**, па Играч 2 ги внесува своите 5 збора.
-<img src="images/16. 2P player1 secret words selection.png" width="30%" hspace="10"><img src="images/17. 2P player2 turn.png" width="30%" hspace="10"><img src="images/18. 2P player2 secret words selection.png" width="30%">
+<img src="images/16. 2P player1 secret words selection.png" width="45%" hspace="15"><img src="images/17. 2P player2 turn.png" width="45%" hspace="15"><br/>
+<img src="images/18. 2P player2 secret words selection.png" width="45%">
 3. **Битка**, играчите **наизменично** имаат еден обид за да го погодат зборот. Активен е само неговиот дел, а тастатурата на другиот е оневозможена.
-<img src="images/20. 2P player1 first guess.png" width="30%" hspace="10"><img src="images/21. 2P player2 correct guess.png" width="30%" hspace="10"><img src="images/22. 2P player1 correct guess.png" width="30%">
+<img src="images/20. 2P player1 first guess.png" width="45%" hspace="15"><img src="images/21. 2P player2 correct guess.png" width="45%" hspace="15"><br/>
+<img src="images/22. 2P player1 correct guess.png" width="45%">
 
 Засновано е на база на **HP нокаут**, секоја точна буква му **одзема HP** на противникот (побрз обид = поголема штета), а погодувањето на цел збор е голем удар. Точните букви истовремено и **лекуваат** (HP се зголемува, но не над максимумот), а **истекувањето на времето** одзема HP. Првиот играч што ќе падне на **0 HP** губи.
 <img src="images/23. 2P player2 last correct guess and win.png" width="45%">
