@@ -450,66 +450,82 @@ namespace Proekt_VP.ViewModels
         private List<int> listForGreenLetters = new List<int>();
         private List<int> listForYellowLetters = new List<int>();
 
+        private bool isSubmitting = false;
         private async void OnSubmitGuess()
         {
-            if (_currentColIndex != 5) return; 
-
-            string guess = string.Join("", Guesses[_currentRowIndex].Select(c => c.Letter));
-
-            bool isValid = await IsValidWordAsync(guess);
-            if (!isValid)
+            if (_currentColIndex != 5)
             {
-                ErrorMessage = "Not in word list";
+                ErrorMessage = "Enter a 5 letter word!";
                 return;
             }
-
-
-            var statuses = Services.GuessEvaluator.ApplyToRow(Guesses[_currentRowIndex], KeyboardKeys, guess, _targetWord);
-            for (int i = 0; i < statuses.Length; i++)
+            if (isSubmitting)
             {
-                if (statuses[i] == Services.LetterStatus.Correct)
+                return;
+            }
+            isSubmitting = true;
+
+            try
+            {
+                string guess = string.Join("", Guesses[_currentRowIndex].Select(c => c.Letter));
+
+                bool isValid = await IsValidWordAsync(guess);
+                if (!isValid)
                 {
-                    if (!listForGreenLetters.Contains(i))
+                    ErrorMessage = "Not in word list";
+                    return;
+                }
+
+
+                var statuses = Services.GuessEvaluator.ApplyToRow(Guesses[_currentRowIndex], KeyboardKeys, guess, _targetWord);
+                for (int i = 0; i < statuses.Length; i++)
+                {
+                    if (statuses[i] == Services.LetterStatus.Correct)
                     {
-                        Score += 5;
-                        listForGreenLetters.Add(i);
+                        if (!listForGreenLetters.Contains(i))
+                        {
+                            Score += 5;
+                            listForGreenLetters.Add(i);
+                        }
+                    }
+                    else if (statuses[i] == Services.LetterStatus.Present)
+                    {
+                        if (!listForYellowLetters.Contains(i))
+                        {
+                            Score += 2;
+                            listForYellowLetters.Add(i);
+                        }
                     }
                 }
-                else if (statuses[i] == Services.LetterStatus.Present)
+
+                if (guess == _targetWord)
                 {
-                    if (!listForYellowLetters.Contains(i))
-                    {
-                        Score += 2;
-                        listForYellowLetters.Add(i);
-                    }
+                    Score += AttemptBonuses[_currentRowIndex];
+                    wordCount++;
+                    isGameOver = true;
+                    ErrorMessage = "Correct word!";
+                    await Task.Delay(1500);
+                    isGameOver = false;
+                    ClearBoard();
+                    return;
+                }
+
+                _currentRowIndex++;
+                _currentColIndex = 0;
+
+                if (_currentRowIndex == 6 && guess != _targetWord)
+                {
+                    isGameOver = true;
+                    ErrorMessage = $"The word was {_targetWord}";
+                    await Task.Delay(1500);
+                    isGameOver = false;
+                    ClearBoard();
+                    return;
                 }
             }
-
-            if (guess == _targetWord)
+            finally
             {
-                Score += AttemptBonuses[_currentRowIndex];
-                wordCount++;
-                isGameOver = true;
-                ErrorMessage = "Correct word!";
-                await Task.Delay(1500);
-                isGameOver = false;
-                ClearBoard();
-                return;
+                isSubmitting = false;
             }
-
-            _currentRowIndex++;
-            _currentColIndex = 0;
-
-            if (_currentRowIndex == 6 && guess!=_targetWord)
-            {
-                isGameOver = true;
-                ErrorMessage = $"The word was {_targetWord}";
-                await Task.Delay(1500);
-                isGameOver = false;
-                ClearBoard();
-                return;
-            }
-
         }
 
         public Task<bool> IsValidWordAsync(string word)

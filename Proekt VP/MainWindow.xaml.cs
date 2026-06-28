@@ -21,6 +21,22 @@ namespace Proekt_VP
         public void ChangeView(UserControl view)
         {
             MainContent.Content = view;
+            if(view is MainMenuView)
+            {
+                Title = "Wordle Main Menu";
+            }
+            if(view is DailyWordleView)
+            {
+                Title = "Daily (Unlimited) Wordle";
+            }
+            if(view is SinglePlayerView)
+            {
+                Title = "Single Player Wordle";
+            }
+            if (view is TwoPlayerView)
+            {
+                Title = "Two Player Wordle";
+            }
         }
 
         

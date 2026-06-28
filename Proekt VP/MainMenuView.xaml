@@ -6,22 +6,25 @@
              xmlns:local="clr-namespace:Proekt_VP"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="White">
-        <TextBox HorizontalAlignment="Center" Margin="0,80,0,0" TextWrapping="Wrap" Text="WORDLE" VerticalAlignment="Top" FontSize="48" FontWeight="Bold"/>
-        <StackPanel VerticalAlignment="Top"
+    <Grid Background="White" VerticalAlignment="Center">
+        <TextBlock HorizontalAlignment="Center" Margin="0,30,0,0" VerticalAlignment="Top" FontSize="60" FontWeight="Bold">WORDLE REMASTERED</TextBlock>
+            <StackPanel VerticalAlignment="Center"
                     HorizontalAlignment="Center"
-                    Width="250" Margin="0,211,0,0">
+                    Width="250" Margin="0,150,0,0">
             <Button x:Name="Daily_Wordle" Content="Daily Wordle"
                     Height="35"
                     Margin="0,10"
+                    FontSize="15"
                     Click="Button_Click"/>
             <Button x:Name="Singleplayer_btn" Content="SINGLEPLAYER MODE"
                     Height="35"
                     Margin="0,10"
+                    FontSize="15"
                     Click="Singleplayer_btn_Click"/>
             <Button x:Name="two_player_btn" Content="2 PLAYER MODE"
                     Height="35"
                     Margin="0,10"
+                    FontSize="15"
                     Click="two_player_btn_Click"
                     />
 
