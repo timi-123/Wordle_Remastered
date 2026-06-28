@@ -464,60 +464,23 @@ namespace Proekt_VP.ViewModels
             }
 
 
-            List<char> remainingLetters = _targetWord.ToList();
-            for(int i = 0; i < 5; i++)
+            var statuses = Services.GuessEvaluator.ApplyToRow(Guesses[_currentRowIndex], KeyboardKeys, guess, _targetWord);
+            for (int i = 0; i < statuses.Length; i++)
             {
-                if (guess[i] == _targetWord[i])
+                if (statuses[i] == Services.LetterStatus.Correct)
                 {
-                    remainingLetters.Remove(guess[i]);
-                }
-            }
-            for (int i = 0; i < 5; i++)
-            {
-                char guessedChar = guess[i];
-                var cell = Guesses[_currentRowIndex][i];
-
-                Brush cellColor;
-                if (guessedChar == _targetWord[i])
-                {
-                    cellColor = Brushes.Green;
                     if (!listForGreenLetters.Contains(i))
                     {
                         Score += 5;
                         listForGreenLetters.Add(i);
                     }
                 }
-                else if (remainingLetters.Contains(guessedChar))
+                else if (statuses[i] == Services.LetterStatus.Present)
                 {
-                    cellColor = Brushes.Goldenrod;
-                    remainingLetters.Remove(guessedChar);
                     if (!listForYellowLetters.Contains(i))
                     {
                         Score += 2;
                         listForYellowLetters.Add(i);
-                    }
-                }
-                else
-                {
-                    cellColor = Brushes.DarkGray;
-                }
-
-                cell.BackgroundColor = cellColor;
-
-                var keyModel = KeyboardKeys.FirstOrDefault(k => k.Key == guessedChar.ToString());
-                if (keyModel != null)
-                {
-                    if (cellColor == Brushes.Green)
-                    {
-                        keyModel.BackgroundColor = Brushes.Green;
-                    }
-                    else if (cellColor == Brushes.Goldenrod && keyModel.BackgroundColor != Brushes.Green)
-                    {
-                        keyModel.BackgroundColor = Brushes.Goldenrod;
-                    }
-                    else if (cellColor == Brushes.DarkGray && keyModel.BackgroundColor != Brushes.Green && keyModel.BackgroundColor != Brushes.Goldenrod)
-                    {
-                        keyModel.BackgroundColor = Brushes.DarkGray;
                     }
                 }
             }
