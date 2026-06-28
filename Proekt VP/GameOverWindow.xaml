@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Proekt_VP"
         mc:Ignorable="d"
-        Title="GameOverWindow" Height="220" Width="320"
+        Title="Game Over" Height="220" Width="320"
         WindowStartupLocation="CenterOwner">
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20">
         <TextBlock x:Name="MessageText" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,5">Time's up!</TextBlock>
