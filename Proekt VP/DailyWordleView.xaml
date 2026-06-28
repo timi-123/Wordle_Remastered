@@ -19,25 +19,19 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0"
-              Margin="10">
+      Margin="10">
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+            <Button Content="← Back to Menu"
+            Padding="10,5"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Click="BackButton_Click"/>
 
-            <Button Grid.Column="0"
-                    Content="← Back to Menu"
-                    Padding="10,5"
-                    Click="BackButton_Click"/>
-
-            <TextBlock Grid.Column="1"
-                       Text="UNLIMITED WORDLE"
-                       FontSize="28"
-                       FontWeight="Bold"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"/>
+            <TextBlock Text="UNLIMITED WORDLE"
+               FontSize="28"
+               FontWeight="Bold"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"/>
 
         </Grid>
 
