@@ -57,6 +57,8 @@
 <img src="images/12. SP wrong guess.png" width="45%" hspace="15"><img src="images/13. SP error if non 5 letter word is entered and board after right guess reset.png" width="45%">
 
 Кога времето ќе истече, се прикажува прозорец со конечниот резултат.
+
+<br/>
 <img src="images/14. SP game over after timer done.png" width="45%">
 
 ### 2.4 2 Player Battle
@@ -64,7 +66,7 @@
 Режим за двајца играчи. Текот е:
 
 1. **Време по обид**, се избира временски лимит по потег (10 / 20 / 30 секунди).
-2. 
+   
 <img src="images/15. 2 player time per guess screen.png" width="45%">
 
 3. **Избор на зборови**, Играч 1 тајно внесува **5 збора со 5 букви** за противникот (секој се валидира преку речник), потоа екран за **предавање на уредот**, па Играч 2 ги внесува своите 5 збора.
